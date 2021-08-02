@@ -48,3 +48,40 @@ print(enron_data['COLWELL WESLEY']['from_this_person_to_poi']) # Output: 11
 
 # Value of stock options exercised by Jeffrey K Skilling
 print(enron_data['SKILLING JEFFREY K']['exercised_stock_options']) # Output: 19250000
+
+# How much money Ken Lay took home
+print(enron_data['LAY KENNETH L']['total_payments']) #Output: 103559793
+
+# How many folks in this dataset have a quantified salary? What about a known email address?
+counter = 0
+for person,information in enron_data.items():
+    if information['salary'] != 'NaN':
+        counter += 1
+print(counter) # Output: 95
+
+counter = 0
+for person,information in enron_data.items():
+    if information['email_address'] != 'NaN':
+        counter += 1
+print(counter)# Output: 111
+
+
+# What percentage of people in the dataset have "NaN" for their total payments?
+people_total = 0
+existing_total_payments = 0
+for person,information in enron_data.items():
+    people_total += 1
+    if information['total_payments'] != 'NaN':
+        existing_total_payments += 1
+
+
+print(existing_total_payments) # Output: 125
+print(people_total) # Output: 146
+print(1 - float(existing_total_payments)/people_total) # 0.14
+
+# Number of persons of interest in enron dataset with 'NaN' for total_payments
+poi_missing_total_payments = 0
+for person_features in enron_data.values():
+    if person_features['poi'] == 1 and person_features['total_payments'] == 'NaN':
+        poi_missing_total_payments += 1
+print(poi_missing_total_payments / float(number_of_persons_of_interests)) # Output: 0
