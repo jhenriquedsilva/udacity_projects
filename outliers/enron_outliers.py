@@ -14,6 +14,21 @@ data = featureFormat(data_dict, features)
 
 
 ### your code below
+# Identifying the outlier
+
+highest = 0
+print type(highest)
+for name,features in data_dict.items():
+    if (type(features['salary']) == int) and (features['salary'] > highest):
+        print name
+        highest = features['salary']
 
 
+for point in data:
+    salary = point[0]
+    bonus = point[1]
+    matplotlib.pyplot.scatter( salary, bonus )
 
+matplotlib.pyplot.xlabel("salary")
+matplotlib.pyplot.ylabel("bonus")
+matplotlib.pyplot.show()
