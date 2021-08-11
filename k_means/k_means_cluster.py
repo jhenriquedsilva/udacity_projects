@@ -43,6 +43,7 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 ### there's an outlier--remove it! 
 data_dict.pop("TOTAL", 0)
 
+"""
 # Looking for max and min Exercised Stock Options
 exercised_stock_options = []
 for features in data_dict.values():
@@ -51,7 +52,32 @@ for features in data_dict.values():
 
 print min(exercised_stock_options)
 print max(exercised_stock_options)
+"""
 
+# Feature rescaling
+exercised_stock_options = []
+for features in data_dict.values():
+    if type(features['exercised_stock_options']) != str:
+        exercised_stock_options.append([float(features['exercised_stock_options'])])
+
+# Looking for max and min Exercised Stock Options
+salary = []
+for features in data_dict.values():
+    if type(features['salary']) != str:
+        salary.append([float(features['salary'])])
+
+exercised_stock_options = numpy.array(exercised_stock_options)
+salary = numpy.array(salary)
+
+from sklearn.preprocessing import MinMaxScaler
+
+scaler1 = MinMaxScaler()
+scaler2 = MinMaxScaler()
+scaler1.fit(exercised_stock_options)
+print scaler1.transform(numpy.array([[1000000.]]))
+
+scaler2.fit(salary)
+print scaler2.transform(numpy.array([[200000.]]))
 
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
@@ -59,7 +85,7 @@ feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 feature_3 = 'total_payments'
 poi  = "poi"
-features_list = [poi, feature_1, feature_2, feature_3]
+features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -68,7 +94,7 @@ poi, finance_features = targetFeatureSplit( data )
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2, _ in finance_features:
+for f1, f2 in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
