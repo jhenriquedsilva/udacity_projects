@@ -114,3 +114,8 @@ mapping = set(vectorizer.get_feature_names())
 print mapping
 print "NUMBER OF WORDS:"
 print len(mapping)
+print "\n"
+
+for word, feature_number in vectorizer.vocabulary_.items():
+    if feature_number == 34597:
+        print word
